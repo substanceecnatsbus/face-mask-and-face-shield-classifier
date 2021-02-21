@@ -1,0 +1,37 @@
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+html {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    margin: 5rem 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form > div {
+    margin: 0.5rem 0;
+}
+
+form > div > div {
+    display: grid;
+    grid-template-columns: 1fr auto 3fr;
+    margin: 0.25rem 0;
+}
+
+form > div > input {
+    width: 100%
+}
