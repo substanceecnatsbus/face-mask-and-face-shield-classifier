@@ -30,6 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("No face detected.\nPlease try again.");
             return;
         }
+        if (classification != "face mask and face shield") {
+            alert("Please wear a face mask and a face shield.");
+            return;
+        }
 
         let symptoms_others = {
             "cough" : document.getElementById("symptoms_others_cough").checked,
