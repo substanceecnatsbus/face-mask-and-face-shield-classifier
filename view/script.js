@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let classification = document.getElementById("classification").value;
         let confidence_level = document.getElementById("confidence_level").value;
 
-        if (name === "" || contact_number === "" || email === "" || address === "" || temperature === "" || classification === "", confidence_level === "") {
+        if (name === "" || contact_number === "" || email === "" || address === "" || temperature === "" || classification === "" || confidence_level === "") {
             alert("Please fill out all the remaining fields.");
             return;
         }

@@ -63,6 +63,7 @@ let socket_server = NET.createServer(socket => {
             IO.emit(CLASSIFICATION_EVENT, message);
         } else if (type === "4") {
             // confidence level
+            console.log(message);
             IO.emit(CONFIDENCE_LEVEL_EVENT, message);
         }
     });
