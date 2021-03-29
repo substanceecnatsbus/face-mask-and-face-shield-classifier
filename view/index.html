@@ -12,11 +12,12 @@
     <form id="user_info_form">
         <div>
             <label for="temperature">Temperature</label>
-            <input type="text" id="temperature" name="temperature" required readonly >
+            <input type="text" id="temperature" name="temperature" required >
         </div>
         <div>
             <label for="classification">Classification</label>
-            <input type="text" id="classification" name="classification" required readonly >
+            <input type="text" id="classification" name="classification" required >
+            <input type="text" id="confidence_level" name="confidence_level" required hidden>
         </div>
         <div>
             <label for="name">Name</label>

@@ -24,6 +24,7 @@ const HEADER_LENGTH = 7;
 const TEMPERATURE_EVENT = "temperature";
 const CLASSIFICATION_EVENT = "classification";
 const USER_INFO_EVENT = "user_info";
+const CONFIDENCE_LEVEL_EVENT = "confidence_level";
 
 // SERVER STATE
 let client_socket = null;
@@ -60,6 +61,9 @@ let socket_server = NET.createServer(socket => {
         } else if (type === "2") {
             // classification
             IO.emit(CLASSIFICATION_EVENT, message);
+        } else if (type === "4") {
+            // confidence level
+            IO.emit(CONFIDENCE_LEVEL_EVENT, message);
         }
     });
 });

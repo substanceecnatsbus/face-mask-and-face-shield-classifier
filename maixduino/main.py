@@ -64,7 +64,7 @@ kpu.set_outputs(task, 0, 1, 1, 5)
 # 	create file and include column headers if file doesn't exist
 if FILE_NAME not in os.listdir():
 	with open(FILE_NAME, "w") as fout:
-		column_headers = "name,contact_number,email,address,date_time,temperature,classification,cough_others,fever_others,headache_others,difficulty_breathing_others,cough,fever,headache,difficulty_breathing\n"
+		column_headers = "name,contact_number,email,address,date_time,temperature,classification,confidence_level,cough_others,fever_others,headache_others,difficulty_breathing_others,cough,fever,headache,difficulty_breathing\n"
 		fout.write(column_headers)
 
 # RESET WHEN WIFI OR SOCKET CONNECTION IS LOST
@@ -198,6 +198,7 @@ while True:
 			res = kpu.forward(task, img)[:]
 			res_max = max(res) 
 			max_index = res.index(res_max)
+			send_data(str(res_max * 100), 4)
 			send_data(CLASSES[max_index], 2)
 			buzz(100)
 			sleep_ms(SLEEP_TIME)

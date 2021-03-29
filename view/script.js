@@ -11,6 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
         classification_input.value = classification;
     });
 
+    socketio_client.on("confidence_level", confidence_level => {
+        let confidence_level_input = document.getElementById("confidence_level");
+        confidence_level_input.value = confidence_level;
+    })
+
     let submit_button = document.getElementById("submit_button");
     submit_button.addEventListener("click", e => {
         e.preventDefault();
@@ -20,8 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
         let address = document.getElementById("address").value;
         let temperature = document.getElementById("temperature").value;
         let classification = document.getElementById("classification").value;
+        let confidence_level = document.getElementById("confidence_level").value;
 
-        if (name === "" || contact_number === "" || email === "" || address === "" || temperature === "" || classification === "") {
+        if (name === "" || contact_number === "" || email === "" || address === "" || temperature === "" || classification === "", confidence_level === "") {
             alert("Please fill out all the remaining fields.");
             return;
         }
@@ -30,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("No face detected.\nPlease try again.");
             return;
         }
+
         if (classification != "face mask and face shield") {
             alert("Please wear a face mask and a face shield.");
             return;
@@ -59,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "date_time" : date_time,
             "temperature": temperature,
             "classification": classification,
+            "confidence_level": confidence_level,
             "symptoms_others" : symptoms_others,
             "symptoms": symptoms
         };
