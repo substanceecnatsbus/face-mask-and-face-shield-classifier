@@ -21,7 +21,8 @@ PASSWORD  = "WIFI PASSWORD"
 SERVER_ADDRESS = "SERVER IP"
 PORT = 3000
 HEADER_LENGTH = 7
-FILE_NAME = "user_info.csv"
+FILE_NAME = "user_info.txt"
+IMAGE_DIRECTORY = "images"
 
 # INITIALIZE PINS
 # 	pin registration
@@ -64,8 +65,12 @@ kpu.set_outputs(task, 0, 1, 1, 5)
 # 	create file and include column headers if file doesn't exist
 if FILE_NAME not in os.listdir():
 	with open(FILE_NAME, "w") as fout:
-		column_headers = "name,contact_number,email,address,date_time,temperature,classification,confidence_level,cough_others,fever_others,headache_others,difficulty_breathing_others,cough,fever,headache,difficulty_breathing\n"
+		column_headers = "name|contact_number|email|address|date_time|temperature|classification|confidence_level|cough_others|fever_others|headache_others|difficulty_breathing_others|cough|fever|headache|difficulty_breathing\n"
 		fout.write(column_headers)
+
+# create image directory if it doesn't exist
+if IMAGE_DIRECTORY not in os.listdir(): 
+	os.mkdir(IMAGE_DIRECTORY) 
 
 # RESET WHEN WIFI OR SOCKET CONNECTION IS LOST
 def reset():
@@ -174,6 +179,7 @@ def recieve_data():
 # main loop
 print("starting...")
 
+last_image = None
 while True:
 	try:
 		# measure the user's DISTANCE from TEMP SENSOR
@@ -191,6 +197,7 @@ while True:
 			sleep_ms(100)
 			# take a picture and display it on the lcd
 			img = sensor.snapshot()
+			last_image = sensor.snapshot()
 			lcd.display(img)
 			# run the image through the model to get classification and send it to the server
 			img = img.resize(IMG_SIZE, IMG_SIZE)
@@ -198,7 +205,7 @@ while True:
 			res = kpu.forward(task, img)[:]
 			res_max = max(res) 
 			max_index = res.index(res_max)
-			send_data(str(res_max * 100), 4)
+			send_data("{:.2f}".format(res_max * 100), 4)
 			send_data(CLASSES[max_index], 2)
 			buzz(100)
 			sleep_ms(SLEEP_TIME)
@@ -213,9 +220,16 @@ while True:
 		send_data("", 0)
 		type, data = recieve_data()
 		if type != 0:
-			# if data is not a ping message then save it to the csv file
+			file_name = ""
+			# if data is not a ping message then save it to the file
 			with open(FILE_NAME, "a") as fout:
-				fout.write(data.replace('"', "") + "\n")
+				record = data.replace('"', "")
+				fout.write(record + "\n")
+				date_time = record.split("|")[4]
+				file_name = date_time.replace(":", "-") + ".jpg"
+			# save image to the images directory
+			last_image.save(IMAGE_DIRECTORY + "/" + file_name, quality=90)
+			
 		
 		# must wait at least 60ms before measuring distances again
 		sleep_ms(60)

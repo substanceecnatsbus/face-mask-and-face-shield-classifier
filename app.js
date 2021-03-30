@@ -88,11 +88,11 @@ IO.on('connection', (socket) => {
             if (typeof(user_info[i]) === "object") {
                 // user_info[i] is json
                 for (let j in user_info[i]) {
-                    user_info_csv += `${user_info[i][j]},`;
+                    user_info_csv += `${user_info[i][j]}|`;
                 }
             } else {
                 // user_info[i] is string
-                user_info_csv += `${user_info[i]},`;
+                user_info_csv += `${user_info[i]}|`;
             }
         }
         user_info_csv = user_info_csv.substring(0, user_info_csv.length-1)

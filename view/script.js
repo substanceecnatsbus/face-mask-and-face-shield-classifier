@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     socketio_client.on("confidence_level", confidence_level => {
         let confidence_level_input = document.getElementById("confidence_level");
         confidence_level_input.value = confidence_level;
-    })
+    });
 
     let submit_button = document.getElementById("submit_button");
     submit_button.addEventListener("click", e => {
@@ -34,11 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (classification === "no face") {
             alert("No face detected.\nPlease try again.");
-            return;
-        }
-
-        if (classification != "face mask and face shield") {
-            alert("Please wear a face mask and a face shield.");
             return;
         }
 
